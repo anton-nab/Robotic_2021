@@ -59,7 +59,7 @@ def computeIK(x, y, z, l1=constL1, l2=constL2, l3=constL3):
         theta2 = -a +alkashi(l2,d,l3)                                         #formule générale de l'angle 'theta2'
         theta3 = alkashi(l2,l3,d)+ pi                                         #formule générale de l'angle 'theta3'
 
-    return [theta1, theta2, theta3]                                           #on retourne la valeur des 3 angles
+    return [theta1, theta2, theta3]                                           #on retourne la valeur des 3 angles voulus
 
 def main():
     print("Testing the kinematic funtions...")
