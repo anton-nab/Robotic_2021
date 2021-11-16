@@ -28,11 +28,11 @@ def computeDK(theta1, theta2, theta3, l1=constL1, l2=constL2, l3=constL3):
 def alkashi (a,b,c):                                                          # Définition du thèoréme d'Al-Kashi pour l'utiliser ultérieurement
     
 
-    return  acos ((a**2+b**2-c**2)/(2*a*b))                                   #Formule de Al-Kashi avec les variables (a,b,c)
+    return  -acos ((a**2+b**2-c**2)/(2*a*b))                                   #Formule de Al-Kashi avec les variables (a,b,c)
 
 
 def computeIK(x, y, z, l1=constL1, l2=constL2, l3=constL3):
-
+    
 
     dp = sqrt(x**2 + y**2 )                                                   #Correspond à 'dproj' soit la distance entre P0 et P3proj du schéma en bas à gauche du fichier 'leg_proj.pdf'
     d1 = dp -l1                                                               #correspond  à 'd13', la distance entre P1 et P3proj du même schéma
@@ -40,7 +40,7 @@ def computeIK(x, y, z, l1=constL1, l2=constL2, l3=constL3):
 
     if d1<0:                                                                  #cette condition sert à ne pas faire intérompre le simulateur
 
-        d1 = 0
+        d1 = 0.001
     d= sqrt(d1**2+z**2)                                                       #'d' est l'hypothénuse du triangle (P1, P3, P3proj) du même schéma précédemment présenté
     
     if d > l2+l3 :                                                            #'l2+l3' est la longueur maximum que peut prendre 'd' 
@@ -48,18 +48,24 @@ def computeIK(x, y, z, l1=constL1, l2=constL2, l3=constL3):
         d = l2+l3
     a = atan(z/d1)
 
-    if x <0:
 
-        theta1 = atan(y/(x+1))                                                #formule de l'angle 'theta1'si x=0 pour éviter d'intérompre le simulateur
-        theta2 = -a +alkashi(l2,d,l3)                                         #formule de l'angle 'theta2' si x=0
-        theta3 = alkashi(l2,l3,d)+ pi                                         #formule de l'angle 'theta3' si x=0#
+
+    if x ==0:
+
+        theta1 = atan(y/0.1)                                                #formule de l'angle 'theta1'si x=0 pour éviter d'intérompre le simulateur
+        theta2 = -a +alkashi(l2,d,l3)                                       #formule de l'angle 'theta2' si x=0
+        theta3 = alkashi(l2,l3,d)- pi                                       #formule de l'angle 'theta3' si x=0
+    
+        
     else :
         
         theta1 = atan(y/ x)                                                   #formule générale de l'angle 'theta1' sauf si x=0
         theta2 = -a +alkashi(l2,d,l3)                                         #formule générale de l'angle 'theta2'
-        theta3 = alkashi(l2,l3,d)+ pi                                         #formule générale de l'angle 'theta3'
+        theta3 = alkashi(l2,l3,d)-pi                                         #formule générale de l'angle 'theta3'
+    
+    
 
-    return [theta1, theta2, theta3]                                           #on retourne la valeur des 3 angles voulus
+    return [theta1, theta2, theta3]                                           #on retourne la valeur des 3 angles
 
 def main():
     print("Testing the kinematic funtions...")
